@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="styles.css"> <!-- Add a separate CSS file -->
+    <title>Document</title>
+</head>
+<style>
+   .container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 60vh;
+    padding: 20px; /* Add padding for spacing */
+
+    /* Adjust the container size based on your preference */
+    max-width: 800px;
+    margin-bottom:20px;
+    width: 90%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-left:80px;
+}
+
+.chart-container{
+    margin-top:30px;
+}
+
+canvas {
+    width: 50%; /* Use the full width of the container */
+    height: auto; /* Automatically adjust the height */
+}
+
+.chart-container {
+    flex: 1;
+}
+
+.chartcontainer{
+    flex: 1;
+    margin-left:200px;
+}
+.appexcharts-legend-text{
+    display:none;
+}
+.apexcharts-legend-series {
+
+    display: none;
+}
+
+/* apexcharts-align-center apx-legend-position-right */
+</style>
+<body>
+    <div class="container">
+        <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+        </div>
+
+        <div class="chartcontainer">
+            <div id="chart"></div>
+        </div>
+
+
+    </div>
+    
+    <div id="gradientDonutChart" style="margin-left:100px; margin-bottom: 200px;"></div>
+
+    <script src="script.js"></script> <!-- Add a separate JavaScript file -->
+    <script>
+        // Pyramid Chart Configuration
+        var options = {
+            series: [
+                {
+                    name: "",
+                    data: [40, 60],
+                },
+            ],
+            chart: {
+                type: 'bar',
+                height: 350,
+                toolbar: {
+                    show: false, // Hide the toolbar which includes the download icon
+                },
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 0,
+                    horizontal: true,
+                    distributed: true,
+                    barHeight: '80%',
+                    isFunnel: true,
+                },
+            },
+            colors: [
+                '#26a69a',
+                '#4BC3E6',
+            ],
+            dataLabels: {
+                enabled: true,
+                formatter: function (val, opt) {
+                    return opt.w.globals.labels[opt.dataPointIndex];
+                },
+                dropShadow: {
+                    enabled: true,
+                },
+            },
+            title: {
+                text: 'Disk Usage',
+                align: 'middle',
+            },
+            xaxis: {
+                categories: ['used hardware spaced',  'Free Disk Storage'],
+            },
+            legend: {
+                show: false,
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+        // Pie Chart Data
+        var pieData = {
+            labels: ["Free RAM", "RAM Used"],
+            datasets: [{
+                label: "Pie Dataset",
+                data: [40, 60],
+                backgroundColor: ["green", ' #b30000']
+            }]
+        };
+
+        // Pie Chart Configuration
+        var pieConfig = {
+            type: "pie",
+            data: pieData,
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: "black",
+                        formatter: function(value, context) {
+                            return context.chart.data.labels[context.dataIndex];
+                        }
+                    }
+                }
+            }
+        };
+
+        // Create Pie Chart
+        var pieCtx = document.getElementById("pieChart").getContext("2d");
+        new Chart(pieCtx, pieConfig);
+
+ // Gradient Donut Chart Configuration
+var donutOptions = {
+    series: [55, 45],
+    chart: {
+        width: 380,
+        type: 'donut',
+    },
+    plotOptions: {
+        pie: {
+            startAngle: -90,
+            endAngle: 270
+        }
+    },
+    dataLabels: {
+        enabled: false
+    },
+    fill: {
+        type: 'gradient',
+        gradient: {
+            shade: 'light',
+            type: "vertical",
+            shadeIntensity: 0.5,
+            gradientToColors: ['#FFD700', '#ff8080'], // Updated color for gradient
+            inverseColors: false,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 100]
+        }
+    },
+    colors: ['#FFD700', '#ff8080'], // Updated colors for individual segments
+    legend: {
+        formatter: function(val, opts) {
+            return val + " - " + opts.w.globals.series[opts.seriesIndex]
+        }
+    },
+    title: {
+        text: 'CPU Usage'
+    },
+    responsive: [{
+        breakpoint: 480,
+        options: {
+            chart: {
+                width: 150
+            },
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }]
+};
+
+var donutChart = new ApexCharts(document.querySelector("#gradientDonutChart"), donutOptions);
+donutChart.render();         
+
+
+    </script>
+</body>
+</html>
