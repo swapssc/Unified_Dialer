@@ -1,29 +1,25 @@
 <?php
 include_once "Connect_db.php";
 if (isset($_POST['create_lead'])) 
-{   
-// $sql = "INSERT INTO users(username,secret,full_name,user_group,active,email,employee_id,user_roles)VALUES('" . $_POST['username'] . "','" . $_POST['secret'] . "','" . $_POST['full_name'] . "','" . $_POST['user_group'] . "','" . $_POST['active'] . "','" . $_POST['email'] . "','" . $_POST['employee_id'] . "','" . $_POST['user_roles'] . "')";
+{
+    
 $sql = "INSERT INTO Lead(lead_id, lead_name, active, campaign, overwrite_data, check_duplicate, file) VALUES 
 ('" . $_POST['lead_id'] . "', '" . $_POST['lead_name'] . "','" . $_POST['active'] . "','" . $_POST['campaign'] . "','" . $_POST['overwrite_data'] . "', '" . $_POST['check_duplicate'] . "', '" . $_POST['file'] . "')";
-
-if (mysqli_query($conn, $sql)) 
-{
-
+echo $sql;
+if (mysqli_query($conn, $sql)) {
     echo "Record inserted successfully";
-   
-}
- else 
-{
+} else {
     echo "Could not insert record: " . mysqli_error($conn);
 }
-header("location:../Lead1.php");
-     
+      header("location:../Lead1.php");
     mysqli_close($conn);
 }
 
 
-if(isset($_POST['edit_lead']))
-{
+
+
+
+if (isset($_POST['edit_lead'])) {
     echo "edit lead";
     // get values form form to update
     $id = $_POST['id'];
@@ -38,12 +34,12 @@ if(isset($_POST['edit_lead']))
     $target_dir = "../Images_store/";
 
     $temp = explode(".", $_FILES["file1"]["name"]);
-$newfilename = round(microtime(true)) . '.' . end($temp);
+    $newfilename = round(microtime(true)) . '.' . end($temp);
 
     $target_file = $target_dir . $newfilename;
     $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
 
     // // Allow certain file formats
     // if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
@@ -51,16 +47,16 @@ $newfilename = round(microtime(true)) . '.' . end($temp);
     //   echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
     //   $uploadOk = 0;
     // }
-    
+
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
-      echo "Sorry, your file was not uploaded.";
-    // if everything is ok, try to upload file
+        echo "Sorry, your file was not uploaded.";
+        // if everything is ok, try to upload file
     } else {
-      if (move_uploaded_file($_FILES["file1"]["tmp_name"], "../Images_store/" . $newfilename)) {
+        if (move_uploaded_file($_FILES["file1"]["tmp_name"], "../Images_store/" . $newfilename)) {
 
 
-        $query = "UPDATE Lead SET
+            $query = "UPDATE Lead SET
         lead_id ='$lead_id ',
         lead_name ='$lead_name',
         active ='$active',
@@ -71,33 +67,24 @@ $newfilename = round(microtime(true)) . '.' . end($temp);
         check_duplicate = '$check_duplicate'
                 WHERE id='$id'
              ";
-     
-          echo $query;
-             $res = mysqli_query($conn, $query);
-             if ($res)
-              {
-                 header('location:../Lead1.php');
-             } else 
-             {
-               
-                 header('location:../Lead1.php');
-             }
+
+            echo $query;
+            $res = mysqli_query($conn, $query);
+            if ($res) {
+                header('location:../Lead1.php');
+            } else {
+
+                header('location:../Lead1.php');
+            }
 
 
 
-        // echo "The file ". htmlspecialchars( basename( $_FILES["file1"]["name"])). " has been uploaded.";
-      } else {
-        echo "Sorry, there was an error uploading your file. - ";
-        print_r($_FILES['file1']);
-      }
+            // echo "The file ". htmlspecialchars( basename( $_FILES["file1"]["name"])). " has been uploaded.";
+        } else {
+            echo "Sorry, there was an error uploading your file. - ";
+            print_r($_FILES['file1']);
+        }
     }
-
-        
-    }
+}
 
 mysqli_close($conn);
-    
-
-
-
-

@@ -285,14 +285,12 @@ include_once "Databases/Connect_db.php";
                                                             <div class="modal-footer" style="margin-left: 90px;">
     <input type="hidden" name="id" value="<?php echo $id; ?>">
     <input type="hidden" name="edit_lead" value="true">
-    <!-- <button type="submit" class="btn btn-primary" style="margin-left: 80px;">Submit</button> -->
-
-    <div class="modal-footer">
-                    <button type="submit" name="edit_lead" class="btn btn-primary" style="margin-left: 60px;">Submit</button>
-                </div>
+    <!-- <button type="submit" class="btn btn-primary" style="margin-left: 100px;">Save</button> -->
 </div>
 
-                    
+                                                        <div class="modal-footer">
+                    <button type="submit" name="edit_lead" value="Submit" class="btn btn-primary">Submit</button>
+                </div>
                                                         </div>
   
                                                         
@@ -331,7 +329,7 @@ include_once "Databases/Connect_db.php";
 <!-- Vertical modal -->
 
 <!-- Modal -->
-<form method="post" action="Databases/Submit.php" enctype="multipart/form-data">
+<form method="post" action="Databases/Submit.php">
     <div class="modal fade" id="createExtensionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
